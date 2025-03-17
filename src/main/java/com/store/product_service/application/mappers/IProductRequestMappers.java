@@ -1,6 +1,7 @@
 package com.store.product_service.application.mappers;
 
 import com.store.product_service.application.dtos.requests.ProductRequest;
+import com.store.product_service.application.dtos.responses.ProductResponseDto;
 import com.store.product_service.domain.model.Product;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
@@ -10,5 +11,5 @@ import org.mapstruct.ReportingPolicy;
         unmappedSourcePolicy = ReportingPolicy.IGNORE)
 public interface IProductRequestMappers {
     Product toModel (ProductRequest productRequest);
-    ProductRequest toRequest (Product product);
+    ProductResponseDto toResponse(Product product);
 }
