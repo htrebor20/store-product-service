@@ -15,6 +15,9 @@ public class Product {
 
     private String description;
 
+    public Product() {
+    }
+
     public Product(Long id, String name, BigDecimal price, int stock, ProductCategory productCategory, String description) {
         this.id = id;
         this.name = name;

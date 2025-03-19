@@ -56,4 +56,9 @@ public class ProductManagementUseCase implements IProductManagementServicePort {
 
         return new PageImpl<>(sortedProducts, pageable, sortedProducts.size());
     }
+
+    @Override
+    public Product updateProduct(Product product, Long id) {
+        return productManagementPersistencePort.updateProduct(product, id);
+    }
 }

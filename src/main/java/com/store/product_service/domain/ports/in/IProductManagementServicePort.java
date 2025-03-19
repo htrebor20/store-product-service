@@ -13,4 +13,6 @@ public interface IProductManagementServicePort {
     Page<Product> findFilteredProducts (Pageable pageable, ProductCategory productCategory,
                                         String keyword, String sortBy, String direction,
                                         BigDecimal minPrice, BigDecimal maxPrice);
+
+    Product updateProduct (Product product, Long id);
 }

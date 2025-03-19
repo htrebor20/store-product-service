@@ -6,9 +6,12 @@ import com.store.product_service.domain.ports.out.IProductManagementPersistenceP
 import com.store.product_service.infrastruture.entities.ProductEntity;
 import com.store.product_service.infrastruture.mappers.IProductEntityMapper;
 import com.store.product_service.infrastruture.repositories.IProductManagementRepository;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+
+import java.util.Optional;
 
 @RequiredArgsConstructor
 public class ProductManagementPersistenceAdapter implements IProductManagementPersistencePort {
@@ -27,5 +30,21 @@ public class ProductManagementPersistenceAdapter implements IProductManagementPe
         Page<ProductEntity> productEntities = productManagementRepository.findByProductCategory(productCategory, pageable);
 
         return productEntities.map(productEntityMapper::toModel);
+    }
+
+    @Override
+    public Product updateProduct(Product product, Long id) {
+        ProductEntity productEntity = productManagementRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Product with ID " + id + " not found"));
+
+        productEntity.setName(Optional.ofNullable(product.getName()).orElse(productEntity.getName()));
+        productEntity.setPrice(Optional.ofNullable(product.getPrice()).orElse(productEntity.getPrice()));
+        productEntity.setStock(Optional.of(product.getStock()).orElse(productEntity.getStock()));
+        productEntity.setProductCategory(Optional.ofNullable(product.getProductCategory()).orElse(productEntity.getProductCategory()));
+        productEntity.setDescription(Optional.ofNullable(product.getDescription()).orElse(productEntity.getDescription()));
+
+        ProductEntity updatedEntity = productManagementRepository.save(productEntity);
+
+        return productEntityMapper.toModel(updatedEntity);
     }
 }

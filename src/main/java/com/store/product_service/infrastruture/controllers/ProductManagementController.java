@@ -48,5 +48,14 @@ public class ProductManagementController {
         Page<ProductResponseDto> responsePage = productPage.map(productRequestMappers::toResponse);
         return ResponseEntity.ok(responsePage);
     }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<ProductResponseDto> updateProduct(@PathVariable Long id,
+                                                            @RequestBody ProductRequest productRequest
+    ) {
+        Product model = productRequestMappers.toModel(productRequest);
+        ProductResponseDto response = productRequestMappers.toResponse(productManagementServicePort.updateProduct(model, id));
+        return new ResponseEntity<>(response, HttpStatus.CREATED);
+    }
 }
 
