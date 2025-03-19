@@ -8,4 +8,5 @@ import org.springframework.data.domain.Pageable;
 public interface IProductManagementPersistencePort {
     Product createProduct (Product product);
     Page<Product> findFilteredProducts (Pageable page, ProductCategory productCategory);
+    Product updateProduct (Product product, Long id);
 }
